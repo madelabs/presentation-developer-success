@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>BBQ.Application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="10.1.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
+        <PackageReference Include="MailKit" Version="2.15.0" />
+        <PackageReference Include="MediatR" Version="12.2.0" />
+        <PackageReference Include="MimeKit" Version="2.15.1" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.36.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Common\Interfaces\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BBQ.DataAccess\BBQ.DataAccess.csproj" />
+    </ItemGroup>
+
+</Project>

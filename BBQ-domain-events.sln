@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34601.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B982FF0C-136E-4ECC-9033-71410D6F030E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ.API", "src-domain-events\BBQ.API\BBQ.API.csproj", "{0CCCFD9E-E436-4ECD-BD67-5EDFBFA43DD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ.Application", "src-domain-events\BBQ.Application\BBQ.Application.csproj", "{863302F3-AC3B-40ED-A0B6-754FE53B7BAA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBQ.DataAccess", "src-domain-events\BBQ.DataAccess\BBQ.DataAccess.csproj", "{B754CFE1-E61C-43E0-954C-C9ED9C8470FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CCCFD9E-E436-4ECD-BD67-5EDFBFA43DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CCCFD9E-E436-4ECD-BD67-5EDFBFA43DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CCCFD9E-E436-4ECD-BD67-5EDFBFA43DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CCCFD9E-E436-4ECD-BD67-5EDFBFA43DD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863302F3-AC3B-40ED-A0B6-754FE53B7BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863302F3-AC3B-40ED-A0B6-754FE53B7BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863302F3-AC3B-40ED-A0B6-754FE53B7BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863302F3-AC3B-40ED-A0B6-754FE53B7BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B754CFE1-E61C-43E0-954C-C9ED9C8470FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B754CFE1-E61C-43E0-954C-C9ED9C8470FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B754CFE1-E61C-43E0-954C-C9ED9C8470FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B754CFE1-E61C-43E0-954C-C9ED9C8470FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0CCCFD9E-E436-4ECD-BD67-5EDFBFA43DD6} = {B982FF0C-136E-4ECC-9033-71410D6F030E}
+		{863302F3-AC3B-40ED-A0B6-754FE53B7BAA} = {B982FF0C-136E-4ECC-9033-71410D6F030E}
+		{B754CFE1-E61C-43E0-954C-C9ED9C8470FE} = {B982FF0C-136E-4ECC-9033-71410D6F030E}
+	EndGlobalSection
+EndGlobal
