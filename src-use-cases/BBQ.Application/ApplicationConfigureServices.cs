@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BBQ.Application.Common.Automapper;
 using BBQ.Application.Common.Email;
-using BBQ.Application.Common.Markers;
 using BBQ.Application.Common.Services;
 using BBQ.Application.UseCases.BbqSession;
 using BBQ.Application.UseCases.SessionNote;
@@ -27,7 +26,6 @@ public static class ApplicationConfigureServices
 
     private static void AddServices(this IServiceCollection services, IWebHostEnvironment env)
     {
-        services.AddValidatorsFromAssemblyContaining<IValidationsMarker>();
         services.AddScoped<IBbqSessionService, BbqSessionService>();
         services.AddScoped<ISessionNoteService, SessionNoteService>();
         services.AddScoped<IUserService, UserService>();

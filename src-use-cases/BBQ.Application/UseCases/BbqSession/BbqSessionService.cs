@@ -15,16 +15,15 @@ public class BbqSessionService : IBbqSessionService
     private readonly IClaimService _claimService;
     private readonly IMapper _mapper;
     private readonly IBbqSessionsRepository _bbqSessionRepository;
-    private readonly IValidator<CreateBbqSessionInputDto> _createBbqSessionValidator;
-    private readonly IValidator<UpdateBbqSessionInputDto> _updateBbqSessionValidator;
 
-    public BbqSessionService(IBbqSessionsRepository bbqSessionRepository, IMapper mapper, IClaimService claimService, IValidator<CreateBbqSessionInputDto> createBbqSessionValidator, IValidator<UpdateBbqSessionInputDto> updateBbqSessionValidator)
+    private const int MinimumDescriptionLength = 5;
+    private const int MaximumDescriptionLength = 50;
+
+    public BbqSessionService(IBbqSessionsRepository bbqSessionRepository, IMapper mapper, IClaimService claimService)
     {
         _bbqSessionRepository = bbqSessionRepository;
         _mapper = mapper;
         _claimService = claimService;
-        _createBbqSessionValidator = createBbqSessionValidator;
-        _updateBbqSessionValidator = updateBbqSessionValidator;
     }
 
     public async Task<IEnumerable<BbqSessionResponseDto>> GetAllAsync()
@@ -38,8 +37,16 @@ public class BbqSessionService : IBbqSessionService
 
     public async Task<CreateBbqSessionResponseDto> CreateAsync(CreateBbqSessionInputDto createBbqSessionInputDto)
     {
-        await _createBbqSessionValidator.ValidateAndThrowAsync(createBbqSessionInputDto);
-        
+        if (createBbqSessionInputDto.Description.Length < MinimumDescriptionLength)
+        {
+            throw new ValidationException($"BBQ Session description must contain a minimum of {MinimumDescriptionLength} characters");
+        }
+
+        if (createBbqSessionInputDto.Description.Length > MaximumDescriptionLength)
+        {
+            throw new ValidationException($"BBq Session description must contain a maximum of {MaximumDescriptionLength} characters");
+        }
+
         var bbqSession = _mapper.Map<DataAccess.Entities.BbqSession>(createBbqSessionInputDto);
 
         bbqSession.CreatedBy = _claimService.GetUserId();
@@ -55,8 +62,16 @@ public class BbqSessionService : IBbqSessionService
 
     public async Task<UpdateBbqSessionResponseDto> UpdateAsync(Guid id, UpdateBbqSessionInputDto updateBbqSessionInputDto)
     {
-        await _updateBbqSessionValidator.ValidateAndThrowAsync(updateBbqSessionInputDto);
-        
+        if (updateBbqSessionInputDto.Description.Length < MinimumDescriptionLength)
+        {
+            throw new ValidationException($"BBQ Session description must contain a minimum of {MinimumDescriptionLength} characters");
+        }
+
+        if (updateBbqSessionInputDto.Description.Length > MaximumDescriptionLength)
+        {
+            throw new ValidationException($"BBq Session description must contain a maximum of {MaximumDescriptionLength} characters");
+        }
+
         var bbqSession = await _bbqSessionRepository.GetFirstAsync(tl => tl.Id == id);
 
         var userId = _claimService.GetUserId();

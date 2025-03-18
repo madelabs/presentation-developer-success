@@ -13,6 +13,7 @@ using BBQ.Application.UseCases.User.ConfirmEmail;
 using BBQ.Application.UseCases.User.CreateUser;
 using BBQ.Application.UseCases.User.LoginUser;
 using BBQ.DataAccess.Identity;
+using FluentValidation;
 
 namespace BBQ.Application.UseCases.User;
 
@@ -24,6 +25,11 @@ public class UserService : IUserService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ITemplateService _templateService;
     private readonly UserManager<ApplicationUser> _userManager;
+
+    private const int MinimumUsernameLength = 5;
+    private const int MaximumUsernameLength = 20;
+    private const int MinimumPasswordLength = 6;
+    private const int MaximumPasswordLength = 128;
 
     public UserService(IMapper mapper,
         UserManager<ApplicationUser> userManager,
@@ -40,8 +46,57 @@ public class UserService : IUserService
         _emailService = emailService;
     }
 
+    private async Task<bool> EmailAddressIsUniqueAsync(string email, CancellationToken cancellationToken = new())
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        return user == null;
+    }
+
+    private async Task<bool> UsernameIsUniqueAsync(string username, CancellationToken cancellationToken = new())
+    {
+        var user = await _userManager.FindByNameAsync(username);
+
+        return user == null;
+    }
+
     public async Task<CreateUserResponseDto> CreateAsync(CreateUserDto createUserDto)
     {
+        if (createUserDto.Username.Length < MinimumUsernameLength)
+        {
+            throw new ValidationException($"Username should have minimum of {MinimumUsernameLength} characters");
+        }
+
+        if (createUserDto.Username.Length > MaximumUsernameLength)
+        {
+            throw new ValidationException($"\"Username should have maximum of {MaximumUsernameLength} characters");
+        }
+
+        if (await UsernameIsUniqueAsync(createUserDto.Username) == false)
+        {
+            throw new ValidationException("Username is not available");
+        }
+
+        if (createUserDto.Password.Length < MinimumPasswordLength)
+        {
+            throw new ValidationException($"Password should have minimum of {MinimumPasswordLength} characters");
+        }
+
+        if (createUserDto.Password.Length > MaximumPasswordLength)
+        {
+            throw new ValidationException($"\"Password should have maximum of {MaximumPasswordLength} characters");
+        }
+
+        if (string.IsNullOrWhiteSpace(createUserDto.Email))
+        {
+            throw new ValidationException("Email address is not valid");
+        }
+
+        if (await EmailAddressIsUniqueAsync(createUserDto.Email) == false)
+        {
+            throw new ValidationException("Email address is already in use");
+        }
+
         var user = _mapper.Map<ApplicationUser>(createUserDto);
 
         var result = await _userManager.CreateAsync(user, createUserDto.Password);
@@ -87,6 +142,16 @@ public class UserService : IUserService
 
     public async Task<ConfirmEmailResponseDto> ConfirmEmailAsync(ConfirmEmailInputDto confirmEmailInputDto)
     {
+        if (string.IsNullOrWhiteSpace(confirmEmailInputDto.Token))
+        {
+            throw new ValidationException("Your verification link is not valid");
+        }
+
+        if (string.IsNullOrWhiteSpace(confirmEmailInputDto.UserId))
+        {
+            throw new ValidationException("Your verification link is not valid");
+        }
+
         var user = await _userManager.FindByIdAsync(confirmEmailInputDto.UserId);
 
         if (user == null)

@@ -10,13 +10,11 @@ namespace BBQ.API.Controllers;
 [Authorize]
 public class BbqSessionsController : ApiController
 {
-    private readonly ISessionNoteService _sessionNoteService;
-    private readonly IBbqSessionService _bbqSessionService;
+    private readonly IBbqService _bbqSessionService;
 
-    public BbqSessionsController(IBbqSessionService bbqSessionService, ISessionNoteService sessionNoteService)
+    public BbqSessionsController(IBbqService bbqSessionService)
     {
         _bbqSessionService = bbqSessionService;
-        _sessionNoteService = sessionNoteService;
     }
 
     [HttpGet]
@@ -29,7 +27,7 @@ public class BbqSessionsController : ApiController
     public async Task<IActionResult> GetAllSessionNotesAsync(Guid id)
     {
         return Ok(ApiResult<IEnumerable<SessionNoteResponseDto>>.Success(
-            await _sessionNoteService.GetAllByBbqSessionIdAsync(id)));
+            await _bbqSessionService.GetAllByBbqSessionIdAsync(id)));
     }
 
     [HttpPost]

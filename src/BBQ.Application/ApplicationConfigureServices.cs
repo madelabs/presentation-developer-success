@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using BBQ.Application.Common.Email;
 using BBQ.Application.MappingProfiles;
 using BBQ.Application.Services;
-using BBQ.Application.Validators;
 using BBQ.DataAccess.Services;
 
 namespace BBQ.Application;
@@ -25,10 +24,7 @@ public static class ApplicationConfigureServices
 
     private static void AddServices(this IServiceCollection services, IWebHostEnvironment env)
     {
-        services.AddValidatorsFromAssemblyContaining<IValidationsMarker>();
-        services.AddScoped<IBbqSessionService, BbqSessionService>();
-        services.AddScoped<ISessionNoteService, SessionNoteService>();
-        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IBbqService, BbqService>();
         services.AddScoped<IClaimService, ClaimService>();
         services.AddScoped<ITemplateService, TemplateService>();
      

@@ -13,20 +13,19 @@ public class SessionNoteService : ISessionNoteService
     private readonly IMapper _mapper;
     private readonly ISessionNotesRepository _sessionNotesRepository;
     private readonly IBbqSessionsRepository _bbqSessionsRepository;
-    private readonly IValidator<CreateSessionNoteInputDto> _createSessionNoteValidator;
-    private readonly IValidator<UpdateSessionNoteInputDto> _updateSessionNoteValidator;
-    
+
+    private const int MinimumNoteLength = 5;
+    private const int MaximumNoteLength = 50;
+    private const int MinimumActivityDescriptionLength = 5;
+    private const int MaximumActivityDescriptionLength = 100;
+
     public SessionNoteService(ISessionNotesRepository sessionNotesRepository,
         IBbqSessionsRepository bbqSessionsRepository,
-        IMapper mapper,
-        IValidator<CreateSessionNoteInputDto> createSessionNoteValidator,
-        IValidator<UpdateSessionNoteInputDto> updateSessionNoteValidator)
+        IMapper mapper)
     {
         _sessionNotesRepository = sessionNotesRepository;
         _bbqSessionsRepository = bbqSessionsRepository;
         _mapper = mapper;
-        _createSessionNoteValidator = createSessionNoteValidator;
-        _updateSessionNoteValidator = updateSessionNoteValidator;
     }
 
     public async Task<IEnumerable<SessionNoteResponseDto>> GetAllByBbqSessionIdAsync(Guid id,
@@ -41,8 +40,26 @@ public class SessionNoteService : ISessionNoteService
     public async Task<CreateSessionNoteResponseDto> CreateAsync(CreateSessionNoteInputDto createSessionNoteInputDto,
         CancellationToken cancellationToken = default)
     {
-        await _createSessionNoteValidator.ValidateAndThrowAsync(createSessionNoteInputDto, cancellationToken);
-        
+        if (createSessionNoteInputDto.Note.Length < MinimumNoteLength)
+        {
+            throw new ValidationException($"Session Note should have minimum of {MinimumNoteLength} characters");
+        }
+
+        if (createSessionNoteInputDto.Note.Length > MaximumNoteLength)
+        {
+            throw new ValidationException($"\"Session Note should have maximum of {MaximumNoteLength} characters");
+        }
+
+        if (createSessionNoteInputDto.ActivityDescription.Length < MinimumActivityDescriptionLength)
+        {
+            throw new ValidationException($"Session Activity Description should have minimum of {MinimumActivityDescriptionLength} characters");
+        }
+
+        if (createSessionNoteInputDto.ActivityDescription.Length > MaximumActivityDescriptionLength)
+        {
+            throw new ValidationException($"\"Session Activity Description should have maximum of {MaximumActivityDescriptionLength} characters");
+        }
+
         var bbqSession = await _bbqSessionsRepository.GetFirstAsync(tl => tl.Id == createSessionNoteInputDto.BbqSessionId);
         var sessionNote = _mapper.Map<DataAccess.Entities.SessionNote>(createSessionNoteInputDto);
 
@@ -57,8 +74,26 @@ public class SessionNoteService : ISessionNoteService
     public async Task<UpdateSessionNoteResponseDto> UpdateAsync(Guid id, UpdateSessionNoteInputDto updateSessionNoteInputDto,
         CancellationToken cancellationToken = default)
     {
-        await _updateSessionNoteValidator.ValidateAndThrowAsync(updateSessionNoteInputDto, cancellationToken);
-        
+        if (updateSessionNoteInputDto.Note.Length < MinimumNoteLength)
+        {
+            throw new ValidationException($"Session Note should have minimum of {MinimumNoteLength} characters");
+        }
+
+        if (updateSessionNoteInputDto.Note.Length > MaximumNoteLength)
+        {
+            throw new ValidationException($"\"Session Note should have maximum of {MaximumNoteLength} characters");
+        }
+
+        if (updateSessionNoteInputDto.ActivityDescription.Length < MinimumActivityDescriptionLength)
+        {
+            throw new ValidationException($"Session Activity Description should have minimum of {MinimumActivityDescriptionLength} characters");
+        }
+
+        if (updateSessionNoteInputDto.ActivityDescription.Length > MaximumActivityDescriptionLength)
+        {
+            throw new ValidationException($"\"Session Activity Description should have maximum of {MaximumActivityDescriptionLength} characters");
+        }
+
         var sessionNote = await _sessionNotesRepository.GetFirstAsync(ti => ti.Id == id);
 
         _mapper.Map(updateSessionNoteInputDto, sessionNote);
