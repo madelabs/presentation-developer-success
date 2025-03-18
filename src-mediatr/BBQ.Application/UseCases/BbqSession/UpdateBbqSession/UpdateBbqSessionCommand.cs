@@ -10,8 +10,10 @@ public record UpdateBbqSessionCommand(
     Guid Id,
     string Description,
     string Result,
-    UserId UserId,
-    TenantId TenantId) : IRequest<UpdateBbqSessionResponseDto>;
+    // UserId UserId,
+    Guid UserId,
+    // TenantId TenantId
+    Guid TenantId) : IRequest<UpdateBbqSessionResponseDto>;
 
 public class UpdateBbqSessionCommandHandler : IRequestHandler<UpdateBbqSessionCommand, UpdateBbqSessionResponseDto>
 {

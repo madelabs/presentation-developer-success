@@ -8,8 +8,10 @@ public class UpdateBbqSessionInputDto
     public string Description { get; set; }
     
     public string Result { get; set; }
-    public UserId UserId { get; set; }
-    public TenantId TenantId { get; set; }
+    //public UserId UserId { get; set; }
+    public Guid UserId { get; set; }
+    //public TenantId TenantId { get; set; }
+    public Guid TenantId { get; set; }
 }
 
 public class UpdateBbqSessionResponseDto : BaseResponseDto { }

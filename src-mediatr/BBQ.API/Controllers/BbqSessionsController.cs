@@ -43,7 +43,8 @@ public class BbqSessionsController : ApiController
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateAsync(Guid id, UpdateBbqSessionInputDto updateBbqSessionInputDto)
     {
-        var command = new UpdateBbqSessionCommand(id, updateBbqSessionInputDto.Description, updateBbqSessionInputDto.Result, updateBbqSessionInputDto.UserId,
+        var command = new UpdateBbqSessionCommand(id, updateBbqSessionInputDto.Description, updateBbqSessionInputDto.Result,
+            updateBbqSessionInputDto.UserId,
             updateBbqSessionInputDto.TenantId);
         
         return Ok(ApiResult<UpdateBbqSessionResponseDto>.Success(
