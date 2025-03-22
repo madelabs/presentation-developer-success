@@ -57,8 +57,6 @@ public class Startup
 
         app.UseAuthorization();
 
-        app.UseMiddleware<PerformanceMiddleware>();
-
         app.UseMiddleware<TransactionMiddleware>();
 
         app.UseMiddleware<ExceptionHandlingMiddleware>();
