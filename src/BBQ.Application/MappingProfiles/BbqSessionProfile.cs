@@ -8,8 +8,6 @@ public class BbqSessionProfile : Profile
 {
     public BbqSessionProfile()
     {
-        CreateMap<CreateBbqSessionInputDto, BbqSession>();
-
         CreateMap<BbqSession, BbqSessionResponseDto>();
     }
 }

@@ -9,6 +9,8 @@ namespace BBQ.DataAccess.Entities
         public string Note { get; set; }
 
         public decimal PitTemperature { get; set; }
+        
+        public decimal MeatTemperature { get; set; }
 
         public virtual BbqSession Session { get; set; }
 

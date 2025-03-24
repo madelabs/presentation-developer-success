@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using BBQ.DataAccess.Repositories;
+using BBQ.DataAccess.ValueObjects;
 
 namespace BBQ.Application.UseCases.SessionNote.CreateSessionNote;
 
@@ -7,7 +8,8 @@ public record CreateSessionNoteCommand(
     Guid BbqSessionId,
     string ActivityDescription,
     string Note,
-    decimal PitTemperature) : IRequest<CreateSessionNoteResponseDto>;
+    PitTemperature PitTemperature,
+    MeatTemperature MeatTemperature) : IRequest<CreateSessionNoteResponseDto>;
 
 public class CreateSessionNoteCommandHandler : IRequestHandler<CreateSessionNoteCommand, CreateSessionNoteResponseDto>
 {
@@ -31,7 +33,8 @@ public class CreateSessionNoteCommandHandler : IRequestHandler<CreateSessionNote
             Session = bbqSession,
             ActivityDescription = request.ActivityDescription,
             Note = request.Note,
-            PitTemperature = request.PitTemperature
+            PitTemperature = request.PitTemperature,
+            MeatTemperature = request.MeatTemperature
         };
 
         return new CreateSessionNoteResponseDto

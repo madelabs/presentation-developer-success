@@ -1,4 +1,5 @@
 ﻿using BBQ.Application.Common.DTO;
+using BBQ.DataAccess.ValueObjects;
 
 namespace BBQ.Application.UseCases.SessionNote.GetAllByList;
 
@@ -8,7 +9,9 @@ public class SessionNoteResponseDto : BaseResponseDto
 
     public string Note { get; set; }
 
-    public decimal PitTemperature { get; set; }
+    public PitTemperature PitTemperature { get; set; }
+    
+    public MeatTemperature MeatTemperature { get; set; }
     
     public string CreatedBy { get; set; }
 

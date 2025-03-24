@@ -1,4 +1,5 @@
 ﻿using BBQ.DataAccess.Common;
+using BBQ.DataAccess.ValueObjects;
 
 namespace BBQ.DataAccess.Entities
 {
@@ -8,7 +9,9 @@ namespace BBQ.DataAccess.Entities
 
         public string Note { get; set; }
 
-        public decimal PitTemperature { get; set; }
+        public PitTemperature PitTemperature { get; set; }
+        
+        public MeatTemperature MeatTemperature { get; set; }
 
         public virtual BbqSession Session { get; set; }
 

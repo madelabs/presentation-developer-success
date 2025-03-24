@@ -83,11 +83,13 @@ public class BbqService : IBbqService
             throw new ValidationException($"BBq Session description must contain a maximum of {MaximumDescriptionLength} characters");
         }
 
-        var bbqSession = _mapper.Map<BbqSession>(createBbqSessionInputDto);
+        var bbqSession = new BbqSession
+        {
+            Description = createBbqSessionInputDto.Description,
+            CreatedBy = _claimService.GetUserId(),
+            CreatedOn = DateTime.Now
+        };
 
-        bbqSession.CreatedBy = _claimService.GetUserId();
-        bbqSession.CreatedOn = DateTime.Now;
-        
         var addedBbqSession = await _bbqSessionRepository.AddAsync(bbqSession);
 
         return new CreateBbqSessionResponseDto
@@ -166,9 +168,14 @@ public class BbqService : IBbqService
         }
 
         var bbqSession = await _bbqSessionRepository.GetFirstAsync(tl => tl.Id == createSessionNoteInputDto.BbqSessionId);
-        var sessionNote = _mapper.Map<SessionNote>(createSessionNoteInputDto);
-
-        sessionNote.Session = bbqSession;
+        var sessionNote = new SessionNote
+        {
+            Session = bbqSession,
+            ActivityDescription = createSessionNoteInputDto.ActivityDescription,
+            Note = createSessionNoteInputDto.Note,
+            PitTemperature = createSessionNoteInputDto.PitTemperature,
+            MeatTemperature = createSessionNoteInputDto.MeatTemperature
+        };
 
         return new CreateSessionNoteResponseDto
         {
@@ -201,7 +208,10 @@ public class BbqService : IBbqService
 
         var sessionNote = await _sessionNotesRepository.GetFirstAsync(ti => ti.Id == id);
 
-        _mapper.Map(updateSessionNoteInputDto, sessionNote);
+        sessionNote.ActivityDescription = updateSessionNoteInputDto.ActivityDescription;
+        sessionNote.Note = updateSessionNoteInputDto.Note;
+        sessionNote.PitTemperature = updateSessionNoteInputDto.PitTemperature;
+        sessionNote.MeatTemperature = updateSessionNoteInputDto.MeatTemperature;
 
         return new UpdateSessionNoteResponseDto
         {

@@ -19,17 +19,21 @@ public class SessionNotesController : ApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(CreateSessionNoteCommand command)
+    public async Task<IActionResult> CreateAsync(CreateSessionNoteInputDto inputCreate)
     {
+        var command = new CreateSessionNoteCommand(inputCreate.BbqSessionId,
+            inputCreate.ActivityDescription, inputCreate.Note,
+            inputCreate.PitTemperature, inputCreate.MeatTemperature);
+        
         return Ok(ApiResult<CreateSessionNoteResponseDto>.Success(
             await _mediator.Send(command)));
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateAsync(Guid id, UpdateSessionNoteInputDto updateSessionNoteInputDto)
+    public async Task<IActionResult> UpdateAsync(Guid id, UpdateSessionNoteInputDto inputUpdate)
     {
-        var command = new UpdateSessionNoteCommand(id, updateSessionNoteInputDto.ActivityDescription, updateSessionNoteInputDto.Note,
-            updateSessionNoteInputDto.PitTemperature);
+        var command = new UpdateSessionNoteCommand(id, inputUpdate.ActivityDescription, inputUpdate.Note,
+            inputUpdate.PitTemperature, inputUpdate.MeatTemperature);
         
         return Ok(ApiResult<UpdateSessionNoteResponseDto>.Success(
             await _mediator.Send(command)));

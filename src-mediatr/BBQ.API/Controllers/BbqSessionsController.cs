@@ -6,6 +6,7 @@ using BBQ.Application.UseCases.BbqSession.CreateBbqSession;
 using BBQ.Application.UseCases.BbqSession.DeleteBbqSession;
 using BBQ.Application.UseCases.BbqSession.GetAll;
 using BBQ.Application.UseCases.BbqSession.UpdateBbqSession;
+using BBQ.Application.UseCases.SessionNote.CreateSessionNote;
 using BBQ.Application.UseCases.SessionNote.GetAllByList;
 
 namespace BBQ.API.Controllers;
@@ -27,15 +28,19 @@ public class BbqSessionsController : ApiController
     }
 
     [HttpGet("{id:guid}/notes")]
-    public async Task<IActionResult> GetAllSessionNotesAsync(GetAllByBbqSessionQuery query)
+    public async Task<IActionResult> GetAllSessionNotesAsync([FromRoute] Guid id)
     {
+        var query = new GetAllByBbqSessionQuery(id);
+        
         return Ok(ApiResult<IEnumerable<SessionNoteResponseDto>>.Success(
             await _mediator.Send(query)));
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(CreateBbqSessionCommand command)
+    public async Task<IActionResult> CreateAsync(string description)
     {
+        var command = new CreateBbqSessionCommand(description);
+        
         return Ok(ApiResult<CreateBbqSessionResponseDto>.Success(
             await _mediator.Send(command)));
     }
@@ -43,9 +48,7 @@ public class BbqSessionsController : ApiController
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateAsync(Guid id, UpdateBbqSessionInputDto updateBbqSessionInputDto)
     {
-        var command = new UpdateBbqSessionCommand(id, updateBbqSessionInputDto.Description, updateBbqSessionInputDto.Result,
-            updateBbqSessionInputDto.UserId,
-            updateBbqSessionInputDto.TenantId);
+        var command = new UpdateBbqSessionCommand(id, updateBbqSessionInputDto.Description, updateBbqSessionInputDto.Result);
         
         return Ok(ApiResult<UpdateBbqSessionResponseDto>.Success(
             await _mediator.Send(command)));

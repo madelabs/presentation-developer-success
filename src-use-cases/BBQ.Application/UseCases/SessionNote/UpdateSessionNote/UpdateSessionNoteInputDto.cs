@@ -11,6 +11,8 @@ public class UpdateSessionNoteInputDto
     public string Note { get; set; }
 
     public decimal PitTemperature { get; set; }
+    
+    public decimal MeatTemperature { get; set; }
 }
 
 public class UpdateSessionNoteResponseDto : BaseResponseDto { }

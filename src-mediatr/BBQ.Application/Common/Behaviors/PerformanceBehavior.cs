@@ -11,9 +11,7 @@ namespace BBQ.Application.Common.Behaviors
         private readonly ILogger<PerformanceBehavior<TRequest, TResponse>> _logger;
         private readonly IClaimService _claimService;
 
-        public PerformanceBehavior(
-            ILogger<PerformanceBehavior<TRequest, TResponse>> logger,
-            IClaimService claimService)
+        public PerformanceBehavior(ILogger<PerformanceBehavior<TRequest, TResponse>> logger, IClaimService claimService)
         {
             _timer = new Stopwatch();
             _logger = logger;

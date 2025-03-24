@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using BBQ.Application.Common.Exceptions;
-using BBQ.Application.ValueObjects;
 using BBQ.DataAccess.Repositories;
 using BBQ.DataAccess.Services;
 
@@ -9,11 +8,7 @@ namespace BBQ.Application.UseCases.BbqSession.UpdateBbqSession;
 public record UpdateBbqSessionCommand(
     Guid Id,
     string Description,
-    string Result,
-    // UserId UserId,
-    Guid UserId,
-    // TenantId TenantId
-    Guid TenantId) : IRequest<UpdateBbqSessionResponseDto>;
+    string Result) : IRequest<UpdateBbqSessionResponseDto>;
 
 public class UpdateBbqSessionCommandHandler : IRequestHandler<UpdateBbqSessionCommand, UpdateBbqSessionResponseDto>
 {
@@ -39,8 +34,6 @@ public class UpdateBbqSessionCommandHandler : IRequestHandler<UpdateBbqSessionCo
 
         bbqSession.Description = request.Description;
         bbqSession.Result = request.Result;
-        bbqSession.TenantId = request.TenantId;
-        bbqSession.UserId = request.UserId;
 
         return new UpdateBbqSessionResponseDto
         {

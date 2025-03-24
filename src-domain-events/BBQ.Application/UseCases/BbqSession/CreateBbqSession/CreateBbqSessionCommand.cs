@@ -25,8 +25,6 @@ public class CreateBbqSessionCommandHandler : IRequestHandler<CreateBbqSessionCo
         var bbqSession = new DataAccess.Entities.BbqSession()
         {
                 Description = request.Description,
-                TenantId = request.TenantId,
-                UserId = request.UserId
         };
 
         bbqSession.AddDomainEvent(new BbqSessionCreated(bbqSession));

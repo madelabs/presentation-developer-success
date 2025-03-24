@@ -8,6 +8,8 @@ public class SessionNoteResponseDto : BaseResponseDto
     
     public decimal PitTemperature { get; set; }
     
+    public decimal MeatTemperature { get; set; }
+    
     public string CreatedBy { get; set; }
 
     public DateTime CreatedOn { get; set; }

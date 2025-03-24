@@ -10,10 +10,6 @@ public class SessionNoteProfile : Profile, IMappingProfilesMarker
 {
     public SessionNoteProfile()
     {
-        CreateMap<CreateSessionNoteInputDto, DataAccess.Entities.SessionNote>();
-
-        CreateMap<UpdateSessionNoteInputDto, DataAccess.Entities.SessionNote>();
-
         CreateMap<DataAccess.Entities.SessionNote, SessionNoteResponseDto>();
     }
 }

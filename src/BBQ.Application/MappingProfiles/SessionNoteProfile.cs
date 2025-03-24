@@ -8,10 +8,6 @@ public class SessionNoteProfile : Profile
 {
     public SessionNoteProfile()
     {
-        CreateMap<CreateSessionNoteInputDto, SessionNote>();
-
-        CreateMap<UpdateSessionNoteInputDto, SessionNote>();
-
         CreateMap<SessionNote, SessionNoteResponseDto>();
     }
 }

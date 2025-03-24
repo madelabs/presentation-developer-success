@@ -61,7 +61,14 @@ public class SessionNoteService : ISessionNoteService
         }
 
         var bbqSession = await _bbqSessionsRepository.GetFirstAsync(tl => tl.Id == createSessionNoteInputDto.BbqSessionId);
-        var sessionNote = _mapper.Map<DataAccess.Entities.SessionNote>(createSessionNoteInputDto);
+        var sessionNote = new DataAccess.Entities.SessionNote
+        {
+            Session = bbqSession,
+            ActivityDescription = createSessionNoteInputDto.ActivityDescription,
+            Note = createSessionNoteInputDto.Note,
+            PitTemperature = createSessionNoteInputDto.PitTemperature,
+            MeatTemperature = createSessionNoteInputDto.MeatTemperature
+        };
 
         sessionNote.Session = bbqSession;
 
@@ -96,7 +103,10 @@ public class SessionNoteService : ISessionNoteService
 
         var sessionNote = await _sessionNotesRepository.GetFirstAsync(ti => ti.Id == id);
 
-        _mapper.Map(updateSessionNoteInputDto, sessionNote);
+        sessionNote.ActivityDescription = updateSessionNoteInputDto.ActivityDescription;
+        sessionNote.Note = updateSessionNoteInputDto.Note;
+        sessionNote.PitTemperature = updateSessionNoteInputDto.PitTemperature;
+        sessionNote.MeatTemperature = updateSessionNoteInputDto.MeatTemperature;
 
         return new UpdateSessionNoteResponseDto
         {

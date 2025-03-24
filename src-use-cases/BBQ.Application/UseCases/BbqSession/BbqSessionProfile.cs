@@ -9,8 +9,6 @@ public class BbqSessionProfile : Profile, IMappingProfilesMarker
 {
     public BbqSessionProfile()
     {
-        CreateMap<CreateBbqSessionInputDto, DataAccess.Entities.BbqSession>();
-
         CreateMap<DataAccess.Entities.BbqSession, BbqSessionResponseDto>();
     }
 }
